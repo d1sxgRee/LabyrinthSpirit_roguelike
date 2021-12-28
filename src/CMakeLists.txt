@@ -5,7 +5,8 @@ project(LabitinthSpirit)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(${PROJECT_NAME}
-        main.c
+  interface.c
+  main.c
 )
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
