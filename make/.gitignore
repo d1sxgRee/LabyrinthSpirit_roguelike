@@ -1,0 +1,9 @@
+*Make*
+deps/
+src/
+cmake_install.cmake
+CTestTestfile.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+Testing/
+tests/
