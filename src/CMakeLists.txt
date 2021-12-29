@@ -9,6 +9,10 @@ add_executable(${PROJECT_NAME}
   main.c
 )
 
+target_include_directories(${PROJECT_NAME} PUBLIC
+  ${CMAKE_SOURCE_DIR}/deps/raygui/src/
+  )
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
 
 target_link_libraries(${PROJECT_NAME}
