@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(PointGame)
+project(LabyrinthSpirit)
 
 set(CMAKE_C_STANDARD 11)
 

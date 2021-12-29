@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(LabitinthSpirit)
+project(LabyrinthSpirit)
 
 set(OpenGL_GL_PREFERENCE GLVND)
 # There's usualy no modern OpenGL on non-x86-64 machines
