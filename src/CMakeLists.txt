@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} PUBLIC
   ${CMAKE_SOURCE_DIR}/deps/raygui/src/
+  ${CMAKE_SOURCE_DIR}/deps/raygui/styles/lavanda
   )
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
