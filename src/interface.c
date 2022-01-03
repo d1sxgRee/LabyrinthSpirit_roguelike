@@ -6,6 +6,9 @@
 #include "raygui.h"
 #undef RAYGUI_IMPLEMENTATION
 #include "lavanda.h"
+#include "engine.h"
+
+#define MAP_TILE_COUNT 2
 
 typedef enum{
   MAIN_MENU,
@@ -19,11 +22,16 @@ typedef struct Interface{
   int open_stats;
   int open_stuff;
   int open_backpack;
+  Texture2D textures[MAP_TILE_COUNT];
+  Texture2D hero;
+  Engine *engine;
+  View view;
 }Interface;
 
-Interface *interface_init(){
+Interface *interface_init(Engine *engine){
   Interface *interface;
   interface = malloc(sizeof(Interface));
+  interface->engine = engine;
   interface->state = MAIN_MENU;
   interface->closer = 0;
   interface->text_log_pos = (Vector2) {0, 0};
@@ -31,6 +39,10 @@ Interface *interface_init(){
 }
 
 void interface_destroy(Interface *interface){
+  for(int i = 0; i < MAP_TILE_COUNT; i++){
+    UnloadTexture(interface->textures[i]);
+  }
+  UnloadTexture(interface->hero);
   free(interface);
   return;
 }
@@ -47,6 +59,7 @@ void mainmenu_draw(Interface *interface, Texture2D *logo){
   if(GuiButton((Rectangle) {300, 520, 200, 50}, "EXIT")){
     interface->closer = 1;
   }
+  return;
 }
 
 void gameplay_draw(Interface *interface){
@@ -54,6 +67,17 @@ void gameplay_draw(Interface *interface){
     interface->state = MAIN_MENU;
   }
   ClearBackground(BLACK);
+
+  /* Map Rendering */
+  engine_execute_command(interface->engine, WAIT, &(interface->view));
+  for(int i = 0; i < VIEW_SIZE; i++){
+    for(int j = 0; j < VIEW_SIZE; j++){
+      DrawTexture(interface->textures[interface->view.fov[i][j]], 232 + i * 32, 10 + j * 32, RAYWHITE);
+    }
+  }
+
+  DrawTexture(interface->hero, 232 + 6 * 32, 10 + 6 * 32, RAYWHITE);
+  
   /* Character Portraits */
   GuiButton((Rectangle) {0, 0, 100, 150}, "CH1");
   GuiButton((Rectangle) {0, 150, 100, 150}, "CH2");
@@ -95,6 +119,7 @@ void gameplay_draw(Interface *interface){
       interface->open_backpack = 0;
     }
   }
+  return;
 }
 
 void interface_run(Interface *interface){
@@ -104,6 +129,9 @@ void interface_run(Interface *interface){
   GuiLoadStyleLavanda();
 
   Texture2D logo = LoadTexture("resources/textures/labyrinthspirit.png");
+  interface->textures[0] = LoadTexture("resources/textures/sprites/basefloor.png");
+  interface->textures[1] = LoadTexture("resources/textures/sprites/bricks.png");
+  interface->hero = LoadTexture("resources/textures/sprites/necromant.png");
 
   while(!interface->closer){
 

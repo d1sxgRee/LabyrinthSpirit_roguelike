@@ -5,6 +5,7 @@ project(LabyrinthSpirit)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(${PROJECT_NAME}
+  engine.c
   interface.c
   main.c
 )
