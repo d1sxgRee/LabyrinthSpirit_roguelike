@@ -44,6 +44,8 @@ void interface_destroy(Interface *interface){
   }
   UnloadTexture(interface->hero);
   free(interface);
+  
+  CloseWindow();
   return;
 }
 
@@ -151,7 +153,6 @@ void interface_run(Interface *interface){
   }
 
   UnloadTexture(logo);
-  
-  CloseWindow();
+
   return;
 }
