@@ -33,3 +33,10 @@ void engine_execute_command(Engine *engine, Command command, View *view){
   }
   return;
 }
+
+void engine_register_types(){
+  scm_register_coords();
+  scm_register_character();
+  return;
+}
+    
