@@ -1,15 +1,22 @@
 #include "engine.h"
 #include <stdlib.h>
+#include "level.h"
+
+#define LEVEL_COUNT 1
 
 typedef struct Engine{
-} Engine;
+  Level* levels[LEVEL_COUNT];
+  Character* hero1;
+}Engine;
 
 Engine *engine_init(){
-  return malloc(sizeof(Engine));
+  Engine *engine = scm_gc_malloc(sizeof(Engine), "engine");
+  engine->levels[0] = level_init();
+  engine->hero1 = character_init();
+  return engine;
 }
 
 void engine_destroy(Engine *engine){
-  free(engine);
   return;
 }
 

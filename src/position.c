@@ -4,21 +4,21 @@
 static SCM coords_type;
 
 SCM scm_make_coords(SCM x, SCM y){
-  coords *c = scm_gc_malloc(sizeof(coords), "coords");
+  Coords *c = scm_gc_malloc(sizeof(Coords), "coords");
   c->x = scm_to_int(x);
   c->y = scm_to_int(y);
-  return scm_make_foreign_object_1(coord_type, c);
+  return scm_make_foreign_object_1(coords_type, c);
 }
 
 SCM scm_get_x(SCM c){
-  scm_assert_foreign_object_type(coord_type, c);
-  coords *c1 = scm_foreign_object_ref(c, 0);
+  scm_assert_foreign_object_type(coords_type, c);
+  Coords *c1 = scm_foreign_object_ref(c, 0);
   return scm_from_int(c1->x);
 }
 
 SCM scm_get_y(SCM c){
-  scm_assert_foreign_object_type(coord_type, c);
-  coords *c1 = scm_foreign_object_ref(c, 0);
+  scm_assert_foreign_object_type(coords_type, c);
+  Coords *c1 = scm_foreign_object_ref(c, 0);
   return scm_from_int(c1->y);
 }
 
@@ -33,6 +33,6 @@ void scm_register_coords(){
 }
 
 SCM scm_get_coords_type(){
-  assert(coords_type);p
+  assert(coords_type);
   return coords_type;
 }

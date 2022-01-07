@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME}
   character.c
   engine.c
   interface.c
+  level.c
   position.c
   main.c
 )
