@@ -35,6 +35,11 @@ Interface *interface_init(Engine *engine){
   interface->state = MAIN_MENU;
   interface->closer = 0;
   interface->text_log_pos = (Vector2) {0, 0};
+  for(int i = 0; i < VIEW_SIZE; i++){
+    for(int j = 0; j < VIEW_SIZE; j++){
+      interface->view.fov[i][j] = 0;
+    }
+  }
   return interface;
 }
 
@@ -65,13 +70,33 @@ void mainmenu_draw(Interface *interface, Texture2D *logo){
 }
 
 void gameplay_draw(Interface *interface){
-  if(IsKeyPressed(KEY_ESCAPE)){
+
+  switch(GetKeyPressed()){
+  case KEY_ESCAPE:
     interface->state = MAIN_MENU;
+    break;
+  case KEY_UP:
+    engine_execute_command(interface->engine, GO_N, &(interface->view));
+    break;
+  case KEY_RIGHT:
+    engine_execute_command(interface->engine, GO_E, &(interface->view));
+    break;
+  case KEY_LEFT:
+    engine_execute_command(interface->engine, GO_W, &(interface->view));
+    break;
+  case KEY_DOWN:
+    engine_execute_command(interface->engine, GO_S, &(interface->view));
+    break;
+  case KEY_NULL:
+    break;
+  default:
+    engine_execute_command(interface->engine, WAIT, &(interface->view));
   }
+  
   ClearBackground(BLACK);
 
   /* Map Rendering */
-  engine_execute_command(interface->engine, WAIT, &(interface->view));
+
   for(int i = 0; i < VIEW_SIZE; i++){
     for(int j = 0; j < VIEW_SIZE; j++){
       DrawTexture(interface->textures[interface->view.fov[i][j]], 232 + i * 32, 10 + j * 32, RAYWHITE);
