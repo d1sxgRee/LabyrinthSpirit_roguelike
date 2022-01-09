@@ -4,6 +4,8 @@
 #define LEVEL_SIZE_X 25
 #define LEVEL_SIZE_Y 25
 
+static SCM level_type;
+
 typedef struct Level{
   SCM creatures;
   int map[LEVEL_SIZE_Y][LEVEL_SIZE_X];
@@ -17,7 +19,7 @@ Level *level_init(){
       level->map[i][j] = 0;
     }
   }
-  level->map[10][10] = 1;
+  scm_call_1(scm_variable_ref(scm_c_lookup("generate-level")), scm_make_foreign_object_1(level_type, level));
   return level;
 }
 
@@ -83,4 +85,37 @@ void level_do_step(Level *level){
     level_execute_command(level, c);
   }
   return;
+}
+
+SCM scm_level_get_cell(SCM level, SCM coords){
+  scm_assert_foreign_object_type(scm_get_level_type(), level);
+  scm_assert_foreign_object_type(scm_get_coords_type(), coords);
+  Level *lvl = scm_foreign_object_ref(level, 0);
+  Coords c = *((Coords*) scm_foreign_object_ref(coords, 0));
+  return scm_from_int(lvl->map[c.y][c.x]);
+}
+
+SCM scm_level_set_cell_x(SCM level, SCM coords, SCM value){
+  scm_assert_foreign_object_type(scm_get_level_type(), level);
+  scm_assert_foreign_object_type(scm_get_coords_type(), coords);
+  assert(scm_is_integer(value));
+  Level *lvl = scm_foreign_object_ref(level, 0);
+  Coords c = *((Coords*) scm_foreign_object_ref(coords, 0));
+  int val = scm_to_int(value);
+  lvl->map[c.y][c.x] = val;
+  return SCM_EOL;
+}
+
+void scm_register_level(){
+  level_type = scm_make_foreign_object_type(scm_from_utf8_symbol("level"),
+                                            scm_list_1(scm_from_utf8_symbol("data")),
+                                            NULL);
+  scm_c_define_gsubr("level-get-cell", 2, 0, 0, (scm_t_subr) scm_level_get_cell);
+  scm_c_define_gsubr("level-set-cell!", 3, 0, 0, (scm_t_subr) scm_level_set_cell_x);
+  return;
+}
+
+SCM scm_get_level_type(){
+  assert(level_type);
+  return level_type;
 }

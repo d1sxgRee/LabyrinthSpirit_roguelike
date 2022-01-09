@@ -11,5 +11,7 @@ void level_destroy(Level *level);
 void level_add_character(Level *level, Character *character);
 void level_get_fov(Level *level, Character *c, View *view);
 void level_do_step(Level *level);
+void scm_register_level();
+SCM scm_get_level_type();
 
 #endif /* __LEVEL_H__ */

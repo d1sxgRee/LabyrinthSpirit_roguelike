@@ -10,7 +10,13 @@ typedef struct Engine{
   Character* hero1;
 }Engine;
 
+void engine_load_scripts(){
+  scm_c_primitive_load("resources/scripts/level_gen.scm");
+  return;
+}
+
 Engine *engine_init(){
+  engine_load_scripts();
   Engine *engine = scm_gc_malloc(sizeof(Engine), "engine");
   engine->levels[0] = level_init();
   engine->cur_level = 0;
@@ -33,6 +39,7 @@ void engine_execute_command(Engine *engine, Command command, View *view){
 void engine_register_types(){
   scm_register_coords();
   scm_register_character();
+  scm_register_level();
   return;
 }
-    
+
