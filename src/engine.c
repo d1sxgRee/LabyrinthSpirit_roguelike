@@ -15,6 +15,7 @@ Engine *engine_init(){
   engine->levels[0] = level_init();
   engine->cur_level = 0;
   engine->hero1 = character_init();
+  level_add_character(engine->levels[engine->cur_level], engine->hero1);
   return engine;
 }
 
@@ -24,7 +25,8 @@ void engine_destroy(Engine *engine){
 
 void engine_execute_command(Engine *engine, Command command, View *view){
   character_set_command(engine->hero1, command);
-  level_do_step(engine->levels[engine->cur_level], view);
+  level_do_step(engine->levels[engine->cur_level]);
+  level_get_fov(engine->levels[engine->cur_level], engine->hero1, view);
   return;
 }
 

@@ -99,7 +99,7 @@ void gameplay_draw(Interface *interface){
 
   for(int i = 0; i < VIEW_SIZE; i++){
     for(int j = 0; j < VIEW_SIZE; j++){
-      DrawTexture(interface->textures[interface->view.fov[i][j]], 232 + i * 32, 10 + j * 32, RAYWHITE);
+      DrawTexture(interface->textures[interface->view.fov[j][i]], 232 + i * 32, 10 + j * 32, RAYWHITE);
     }
   }
 
